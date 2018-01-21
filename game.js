@@ -1,7 +1,15 @@
 'use strict';
 
-class GameCell {
+
+class ViewComponent {
+	getElement() {
+		return this._element;
+	}
+}
+
+class GameCell extends ViewComponent {
 	constructor () {
+		super();
 		this._state = 'unknown';
 		this._element = document.createElement('td');
 		const self = this;
@@ -16,11 +24,7 @@ class GameCell {
 		}
 		this._state = state;
 		this._element.className = 'cell_' + state;
-	}
-
-	getElement() {
-		return this._element;
-	}
+	}	
 }
 
 const gameElement = document.getElementById('game');
