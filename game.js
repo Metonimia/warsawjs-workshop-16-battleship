@@ -2,13 +2,18 @@
 
 
 class ViewComponent {
+	constructor() {
+		if (new.target === ViewComponent) {
+			throw new Error('Abstract Class');
+		}
+	}
 	getElement() {
 		return this._element;
 	}
 }
 
 class GameCell extends ViewComponent {
-	constructor () {
+	constructor() {
 		super();
 		this._state = 'unknown';
 		this._element = document.createElement('td');
@@ -27,9 +32,26 @@ class GameCell extends ViewComponent {
 	}	
 }
 
+class GameBoard extends ViewComponent {
+	constructor() {
+		super();
+		this._element = document.createElement('table');
+		const rowCount = 10;
+		const columnCount = 10;
+		for (let i = 0; i < rowCount; i++) {
+			const row = document.createElement('tr');
+			for (let i = 0; i < columnCount; i++) {
+				const cell = new GameCell();
+				row.appendChild(cell.getElement());
+			}
+		this._element.appendChild(row);
+		}
+	}
+}
+
 const gameElement = document.getElementById('game');
-const row = document.createElement('tr');
-gameElement.appendChild(row);
-const cell1 = new GameCell();
-row.appendChild(cell1.getElement());
+const board = new GameBoard();
+gameElement.appendChild(board.getElement());
+
+
 
