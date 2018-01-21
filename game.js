@@ -1,18 +1,31 @@
+'use strict';
+
+class GameCell {
+	constructor () {
+		this._state = 'unknown';
+		this._element = document.createElement('td');
+		const self = this;
+		this._element.addEventListener('click', function() {
+			self.setState('miss');
+		});
+	}
+
+	setState(state) {
+		if (state !== 'unknown' && state !== 'miss' && state !== 'hit') {
+			throw new Error('Invalid state');
+		}
+		this._state = state;
+		this._element.className = 'cell_' + state;
+	}
+
+	getElement() {
+		return this._element;
+	}
+}
+
 const gameElement = document.getElementById('game');
 const row = document.createElement('tr');
 gameElement.appendChild(row);
-const col1 = document.createElement('td');
-const col2 = document.createElement('td');
-
-row.appendChild(col1);
-row.appendChild(col2);
-
-const cells = [col1, col2];
-
-for (let i = 0; i < cells.length; i++) {
-	const currentCell = cells[i];
-	currentCell.addEventListener('click', function(event) {
-		event.target.classList.add('clicked');
-	});
-}
+const cell1 = new GameCell();
+row.appendChild(cell1.getElement());
 
